@@ -1,13 +1,24 @@
 package com.example.productservice.integration;
 
+import com.example.productservice.configuration.GatewayProperties;
 import com.example.productservice.domain.Product;
 import com.example.productservice.domain.ProductId;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 
+@Ignore
 public class ProductServiceFacadeTest {
 
-    private final ProductServiceFacade productServiceFacade = new ProductServiceFacade(new RestTemplate());
+    private static ProductServiceFacade productServiceFacade;
+
+    @BeforeClass
+    public static void beforeClass() {
+        GatewayProperties properties = new GatewayProperties();
+        properties.setProductServiceUrl("http://localhost:8080/v1/product/");
+        productServiceFacade = new ProductServiceFacade(new RestTemplate(),properties);
+    }
 
     @Test
     public void create() {

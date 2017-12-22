@@ -1,2 +1,9 @@
 server:
   port: 8082
+
+gateway:
+  customer-service-url: http://localhost:8081/v1/customer/
+  product-service-url: http://localhost:8080/v1/product/
+
+
+

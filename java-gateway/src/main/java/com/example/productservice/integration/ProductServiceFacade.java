@@ -1,5 +1,6 @@
 package com.example.productservice.integration;
 
+import com.example.productservice.configuration.GatewayProperties;
 import com.example.productservice.domain.Product;
 import com.example.productservice.domain.ProductId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,31 +16,33 @@ public class ProductServiceFacade {
 
     private final RestTemplate restTemplate;
 
-    private static final String URL = "http://localhost:8080/v1/product/";
+    private final String productServiceUrl;
 
     @Autowired
-    public ProductServiceFacade(RestTemplate restTemplate) {
+    public ProductServiceFacade(RestTemplate restTemplate, GatewayProperties properties) {
         this.restTemplate = requireNonNull(restTemplate, "restTemplate");
+        requireNonNull(properties, "properties");
+        this.productServiceUrl = properties.getProductServiceUrl();
     }
 
     public Product get(ProductId productId) {
-        return restTemplate.getForObject(URL +productId.getValue(),Product.class);
+        return restTemplate.getForObject(productServiceUrl +productId.getValue(),Product.class);
     }
 
     public Collection<Product> getAll() {
-        return restTemplate.getForObject(URL,Collection.class);
+        return restTemplate.getForObject(productServiceUrl,Collection.class);
     }
 
     public void create(Product product) {
-        restTemplate.postForObject(URL,product,Void.class);
+        restTemplate.postForObject(productServiceUrl,product,Void.class);
     }
 
 
     public void update(Product product) {
-        restTemplate.postForObject(URL+product.getId().getValue(), product,Void.class);
+        restTemplate.postForObject(productServiceUrl+product.getId().getValue(), product,Void.class);
     }
 
     public void delete(ProductId productId) {
-        restTemplate.delete(URL + productId.getValue());
+        restTemplate.delete(productServiceUrl + productId.getValue());
     }
 }
