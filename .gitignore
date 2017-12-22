@@ -4,6 +4,8 @@
 # Log file
 *.log
 target/
+node_modules/
+**/package-lock.json
 
 # BlueJ files
 *.ctxt
