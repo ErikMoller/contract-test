@@ -2,6 +2,7 @@ package com.example.productservice.endpoint;
 
 import com.example.productservice.domain.Customer;
 import com.example.productservice.domain.CustomerId;
+import com.example.productservice.domain.Status;
 import com.example.productservice.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +37,9 @@ public class CustomerController {
 
     // curl -X POST -d '{"name": "Erik"}' -H "Content-Type: application/json" localhost:8081/v1/customer
     @PostMapping
-    public void create(@RequestBody Customer customer) {
+    public Status create(@RequestBody Customer customer) {
         customerRepository.create(customer);
+        return Status.valueOf("OK");
     }
 
     //curl -X POST -d '{"name": "shirt2"}' -H "Content-Type: application/json" localhost:8081/v1/customer/1

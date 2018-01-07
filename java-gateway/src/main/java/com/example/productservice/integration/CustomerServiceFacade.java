@@ -4,7 +4,11 @@ import com.example.productservice.configuration.GatewayProperties;
 import com.example.productservice.domain.Customer;
 import com.example.productservice.domain.CustomerId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collection;
@@ -35,7 +39,11 @@ public class CustomerServiceFacade {
     }
 
     public void create(Customer customer) {
-        restTemplate.postForObject(customerServiceUrl,customer,Void.class);
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+        HttpEntity<Customer> request = new HttpEntity<>(customer,headers);
+
+        restTemplate.postForObject(customerServiceUrl, request, Object.class);
     }
 
     public void update(Customer customer) {
